@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>🔥 Next-Level Portfolio</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: #0f0f0f;
+      color: #eee;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
+
+    #custom-cursor {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 20px;
+      height: 20px;
+      border: 2px solid #ff2a95;
+      border-radius: 50%;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      transition: width 0.15s ease, height 0.15s ease, background-color 0.3s ease;
+      mix-blend-mode: difference;
+      z-index: 9999;
+      background: transparent;
+    }
+    a:hover ~ #custom-cursor, button:hover ~ #custom-cursor {
+      width: 40px;
+      height: 40px;
+      background: #ff2a95aa;
+      border-color: #ff2a95;
+    }
+
+    #bg-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
+      pointer-events: none;
+      background: transparent;
+    }
+
+    #content {
+      position: relative;
+      z-index: 10;
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 2rem 1rem 4rem;
+    }
+
+    .section-title {
+      position: relative;
+      font-size: 2.25rem;
+      font-weight: 600;
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+    .section-title::after {
+      content: "";
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      width: 80px;
+      height: 3px;
+      background: linear-gradient(90deg, #ff2a95, #ff6aad);
+      transform: translateX(-50%);
+      border-radius: 10px;
+      animation: slideIn 1.2s ease forwards;
+      opacity: 0;
+    }
+    @keyframes slideIn {
+      to {opacity: 1; width: 80px;}
+      from {opacity: 0; width: 0;}
+    }
+
+    .btn-gradient {
+      background: linear-gradient(90deg, #ff2a95, #ff6aad);
+      padding: 0.75rem 2rem;
+      border-radius: 9999px;
+      font-weight: 600;
+      color: #fff;
+      cursor: pointer;
+      transition: background 0.4s ease, transform 0.25s ease;
+      display: inline-block;
+      user-select: none;
+      box-shadow: 0 4px 8px rgb(255 42 149 / 0.3);
+    }
+    .btn-gradient:hover {
+      background: linear-gradient(90deg, #ff6aad, #ff2a95);
+      transform: scale(1.05);
+      box-shadow: 0 6px 14px rgb(255 42 149 / 0.6);
+    }
+
+    .project-card {
+      background: #1a1a1a;
+      border-radius: 1rem;
+      padding: 1.5rem;
+      box-shadow: 0 0 15px rgb(255 42 149 / 0.2);
+      transition: box-shadow 0.3s ease, transform 0.3s ease;
+      cursor: default;
+      user-select: none;
+    }
+    .project-card:hover {
+      box-shadow: 0 0 25px rgb(255 42 149 / 0.5);
+      transform: translateY(-6px);
+    }
+    .project-title {
+      font-weight: 600;
+      font-size: 1.25rem;
+      margin-bottom: 0.5rem;
+      color: #ff2a95;
+    }
+    .project-desc {
+      font-size: 0.9rem;
+      color: #bbb;
+      margin-bottom: 1rem;
+      line-height: 1.4;
+    }
+    .project-tech {
+      font-size: 0.8rem;
+      color: #ff6aad;
+      font-weight: 500;
+    }
+
+    @media (min-width: 768px) {
+      #projects-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
+      }
+    }
+
+    nav {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      z-index: 20;
+      display: flex;
+      gap: 1.5rem;
+      font-weight: 600;
+      user-select: none;
+    }
+    nav a {
+      color: #eee;
+      text-decoration: none;
+      font-size: 0.9rem;
+      position: relative;
+      padding-bottom: 2px;
+    }
+    nav a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: 0;
+      left: 0;
+      background: #ff2a95;
+      transition: width 0.3s ease;
+    }
+    nav a:hover::after, nav a.active::after {
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="bg-canvas"></canvas>
+<div id="custom-cursor"></div>
+
+<nav>
+  <a href="#about" class="active">About</a>
+  <a href="#projects">Projects</a>
+  <a href="#skills">Skills</a>
+  <a href="#contact">Contact</a>
+</nav>
+
+<main id="content">
+  <section id="about" class="mb-20" style="scroll-margin-top: 80px;">
+    <h2 class="section-title">About Me</h2>
+    <p class="max-w-xl mx-auto text-center text-gray-400 leading-relaxed">
+      I'm an IT student at Multimedia University (MMU), passionate about backend development and programming with C, C++, SQL, and JavaScript.
+      I enjoy creating logic-driven systems and clean, interactive web experiences.
+    </p>
+  </section>
+
+  <section id="projects" class="mb-20" style="scroll-margin-top: 80px;">
+    <h2 class="section-title">Projects</h2>
+    <div id="projects-grid">
+      <article class="project-card">
+        <h3 class="project-title">Ticket Booking Program</h3>
+        <p class="project-desc">
+          Complete movie ticket booking system with seat selection, food & beverage options, and payment via e-wallet or banking.
+        </p>
+        <p class="project-tech">C Language • Program Design</p>
+      </article>
+
+      <article class="project-card">
+        <h3 class="project-title">Concert Ticket Booking System</h3>
+        <p class="project-desc">
+          Booking system for concerts (Taylor Swift, Blackpink), featuring random seat generation and receipt printing.
+        </p>
+        <p class="project-tech">C++ • Object-Oriented Programming</p>
+      </article>
+
+      <article class="project-card">
+        <h3 class="project-title">Assignment Submission System</h3>
+        <p class="project-desc">
+          System to manage and track student assignments with grading and late submission reports.
+        </p>
+        <p class="project-tech">SQL • Database Systems</p>
+      </article>
+
+      <article class="project-card">
+        <h3 class="project-title">Guess The Number Game</h3>
+        <p class="project-desc">
+          Interactive number guessing game with real-time feedback and randomized targets. Built with JS and a slick black theme.
+        </p>
+        <a href="guessgame.html" target="_blank" class="btn-gradient inline-block mt-2">Play Now →</a>
+        <p class="project-tech mt-1">JavaScript • UI/UX • Game Logic</p>
+      </article>
+    </div>
+  </section>
+
+  <section id="skills" class="mb-20" style="scroll-margin-top: 80px;">
+    <h2 class="section-title">Skills</h2>
+    <div class="flex flex-wrap justify-center gap-4 text-sm">
+      <span class="px-4 py-2 rounded-full bg-blue-600 font-semibold text-white">C</span>
+      <span class="px-4 py-2 rounded-full bg-green-600 font-semibold text-white">C++</span>
+      <span class="px-4 py-2 rounded-full bg-yellow-400 font-semibold text-black">JavaScript</span>
+      <span class="px-4 py-2 rounded-full bg-indigo-700 font-semibold text-white">SQL</span>
+      <span class="px-4 py-2 rounded-full bg-purple-600 font-semibold text-white">HTML</span>
+      <span class="px-4 py-2 rounded-full bg-pink-600 font-semibold text-white">TailwindCSS</span>
+      <span class="px-4 py-2 rounded-full bg-gray-700 font-semibold text-white">Node.js</span>
+    </div>
+  </section>
+
+  <section id="contact" style="scroll-margin-top: 80px;">
+    <h2 class="section-title">Get In Touch</h2>
+    <p class="text-center max-w-md mx-auto text-gray-400 mb-6">
+      I'm open for internship and project opportunities. Feel free to reach out!
+    </p>
+    <div class="flex justify-center gap-8">
+      <a href="mailto:your.email@example.com" class="btn-gradient">Email Me</a>
+      <a href="https://linkedin.com/in/yourprofile" target="_blank" class="btn-gradient">LinkedIn</a>
+    </div>
+  </section>
+</main>
+
+<script>
+  const cursor = document.getElementById('custom-cursor');
+  window.addEventListener('mousemove', e => {
+    cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+  });
+
+  const canvas = document.getElementById('bg-canvas');
+  const ctx = canvas.getContext('2d');
+  let width, height;
+  let points = [];
+
+  function resize() {
+    width = window.innerWidth;
+    height = window.innerHeight;
+    canvas.width = width;
+    canvas.height = height;
+
+    points = [];
+    const gap = 100;
+    for (let x = gap / 2; x < width; x += gap) {
+      for (let y = gap / 2; y < height; y += gap) {
+        points.push({
+          x: x + (Math.random() * 50 - 25),
+          y: y + (Math.random() * 50 - 25),
+          originX: x,
+          originY: y,
+          vx: (Math.random() - 0.5) / 2,
+          vy: (Math.random() - 0.5) / 2,
+          maxDistance: 150
+        });
+      }
+    }
+  }
+
+  function distance(p1, p2) {
+    return Math.sqrt((p1.x - p2.x) ** 2 + (p1.y - p2.y) ** 2);
+  }
+
+  function animate() {
+    ctx.clearRect(0, 0, width, height);
+    points.forEach(p => {
+      p.x += p.vx;
+      p.y += p.vy;
+      if (Math.abs(p.x - p.originX) > 20) p.vx = -p.vx;
+      if (Math.abs(p.y - p.originY) > 20) p.vy = -p.vy;
+
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
+      ctx.fillStyle = '#ff2a95';
+      ctx.fill();
+    });
+
+    for (let i = 0; i < points.length; i++) {
+      for (let j = i + 1; j < points.length; j++) {
+        const d = distance(points[i], points[j]);
+        if (d < points[i].maxDistance) {
+          ctx.beginPath();
+          ctx.moveTo(points[i].x, points[i].y);
+          ctx.lineTo(points[j].x, points[j].y);
+          ctx.strokeStyle = `rgba(255, 42, 149, ${1 - d / points[i].maxDistance})`;
+          ctx.stroke();
+        }
+      }
+    }
+
+    requestAnimationFrame(animate);
+  }
+
+  resize();
+  animate();
+  window.addEventListener('resize', resize);
+</script>
+
+</body>
+</html>
